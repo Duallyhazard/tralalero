@@ -1,23 +1,36 @@
 var tralaleroAmount = 0;
 var incTralaleroAmount = 1;
 
-const bombCrocBaseCost = 10;
-var bombCrocCost = 10;
-var bombCrocLevel = 0;
+const brainrot = {
+    bombCroc: {
+        baseCost: 10,
+        cost: 10,
+        level: 0,
+        perSec: 0.5,
+    },
+    liriliLarila: {
+        baseCost: 11,
+        cost: 11,
+        level: 0,
+        perSec: 2,
+    },
+    brrBrrPatapim: {
+        baseCost: 12,
+        cost: 12,
+        level: 0,
+        perSec: 5,
+    },
+};
 
 
 // onload functions
 
-document.addEventListener("DOMContentLoaded", function() {updateTralaleroAmount();});
-
-document.addEventListener("DOMContentLoaded", function() {updateBombCrocCost();});
-document.addEventListener("DOMContentLoaded", function() {updateBombCrocLevel();});
-document.addEventListener("DOMContentLoaded", function() {updateLiriliLarilaCost();});
-document.addEventListener("DOMContentLoaded", function() {updateLiriliLarilaLevel();});
-document.addEventListener("DOMContentLoaded", function() {updateBrrBrrPatapimCost();});
-document.addEventListener("DOMContentLoaded", function() {updateBrrBrrPatapimLevel();});
-
-document.addEventListener("DOMContentLoaded", function() {updateTralaleroPerSec();});
+document.addEventListener("DOMContentLoaded", function() {
+    updateTralaleroAmount();
+    
+    updateAnimals();
+    updateTralaleroPerSec();
+});
 
 
 function updateTralaleroAmount() {
@@ -31,49 +44,33 @@ function increaseTralalero() {
     updateTralaleroAmount();
 }
 
-// BombCroc ~~~~~~~~~~~~~~~~
+// generic functions
 
-function buyBombCroc() {
-    if (tralaleroAmount >= bombCrocCost) {
-        tralaleroAmount -= bombCrocCost;
+function buyAnimal(key) {
+    const animal = brainrot[key];
+    if (tralaleroAmount >= animal.cost) {
+        tralaleroAmount -= animal.cost;
 
-        // decrease tralalero amount
+        // increase level and cost
+        animal.level++;
+        animal.cost = Math.floor(animal.baseCost * Math.pow(1.3, animal.level));
+
+        // update html
+        document.getElementById(key + "Cost").innerHTML = animal.cost;
+        document.getElementById(key + "Level").innerHTML = animal.level;
         updateTralaleroAmount();
-
-        // bomb croc level ++
-        incBombCrocLevel();
-
-        // bomb croc costs more
-        increaseBombCrocCost();
-
-        // more tralalalero per sec
         updateTralaleroPerSec();
-
     }
 }
 
-// BombCrocCost
-function updateBombCrocCost() {
-    document.getElementById("bombCrocCost").innerHTML = bombCrocCost;
-
+function updateAnimals() {
+    for (const key in brainrot) {
+        const animal = brainrot[key];
+        document.getElementById(key + "Cost").innerHTML = animal.cost;
+        document.getElementById(key + "Level").innerHTML = animal.level;
+    }
 }
 
-function increaseBombCrocCost() {
-    bombCrocCost = Math.floor(bombCrocBaseCost * Math.pow(1.3, bombCrocLevel));
-    updateBombCrocCost();
-}
-
-// BombCrocLevel
-function updateBombCrocLevel() {
-    document.getElementById("bombCrocLevel").innerHTML = bombCrocLevel;
-
-}
-
-function incBombCrocLevel() {
-    bombCrocLevel ++;
-    updateBombCrocLevel();
-
-}
 
 // Lirili Larila ~~~~~~~~~~~~~~~~
 
@@ -177,17 +174,13 @@ function incBrrBrrPatapimLevel() {
 var tralaleroPerSec;
 
 function updateTralaleroPerSec() {
-    tralaleroPerSec = 
-        bombCrocLevel*0.5 
-        + liriliLarilaLevel * 2 
-        + brrBrrPatapimLevel * 5
-        ;
-    updateTralaleroPerSecHTML();
-}
-
-function updateTralaleroPerSecHTML() {
-    document.getElementById("tralaleroPerSecond").innerHTML = tralaleroPerSec;
-}
+    tralaleroPerSec = 0;
+    for (const key in brainrot) {
+        const animal = brainrot[key];
+        tralaleroPerSec += animal.level * animal.perSec;
+    }
+    
+    document.getElementById("tralaleroPerSecond").innerHTML = tralaleroPerSec;}
 
 // adds tralaleros to total (runs every second)
 function addTralalero() {

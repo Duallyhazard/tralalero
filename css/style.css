@@ -28,6 +28,13 @@ body {
     white-space: nowrap;
 }
 
+.headerLinks {
+    color: #D6FFFF;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
 
 
 .left h3 {
@@ -161,4 +168,26 @@ body {
 
 .BBP {
     border: 3px solid #adad9a;
+}
+
+.enhancements {
+    border: 3px solid #6b4d4d;
+    /* skyblue*/;
+    padding:10px 5px;
+    border-radius: 7px;
+    font-family: "Roboto", sans-serif;
+    width: 100%;
+    height: 70px;
+    margin:15px 0px;
+    background: #4d4d4d;
+
+    position: relative;
+    justify-content:space-between ;
+    align-items: center;
+    display:flex;
+    float: middle;
+}
+
+.enhancements:hover {
+    
 }
