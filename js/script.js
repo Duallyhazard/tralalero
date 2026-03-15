@@ -7,18 +7,34 @@ const brainrot = {
         cost: 10,
         level: 0,
         perSec: 0.5,
+        displayName: "Bombardino Crocodilo",
+        tooltip: "Each Bombardino Crocodilo produces 0.5 Tralalero Tralalas per second."
     },
     liriliLarila: {
         baseCost: 11,
         cost: 11,
         level: 0,
         perSec: 2,
+        displayName: "Lirili Larila",
+        tooltip: "Each Lirili Larila produces 2 Tralalero Tralalas per second."
     },
     brrBrrPatapim: {
         baseCost: 12,
         cost: 12,
         level: 0,
         perSec: 5,
+        displayName: "Brr Brr Patapim",
+        tooltip: "Each Brr Brr Patapim produces 5 Tralalero Tralalas per second."
+
+    },
+    bombGus: {
+        baseCost: 13,
+        cost: 13,
+        level: 0,
+        perSec: 10,
+        displayName: "Bombombini Gusini",
+        tooltip: "Each Bombombini Gusini produces 10 Tralalero Tralalas per second."
+
     },
 };
 
@@ -26,10 +42,12 @@ const brainrot = {
 // onload functions
 
 document.addEventListener("DOMContentLoaded", function() {
+    renderAnimalUpgrades();
     updateTralaleroAmount();
     
     updateAnimals();
     updateTralaleroPerSec();
+    
 });
 
 
@@ -72,104 +90,6 @@ function updateAnimals() {
 }
 
 
-// Lirili Larila ~~~~~~~~~~~~~~~~
-
-const liriliLarilaBaseCost = 11;
-var liriliLarilaCost = 11;
-var liriliLarilaLevel = 0;
-
-function buyLiriliLarila() {
-    if (tralaleroAmount >= liriliLarilaCost) {
-        tralaleroAmount -= liriliLarilaCost;
-
-        // decrease tralalero amount
-        updateTralaleroAmount();
-
-        // bomb croc level ++
-        incLiriliLarilaLevel();
-
-        // bomb croc costs more
-        increaseLiriliLarilaCost();
-
-        // more tralalalero per sec
-        updateTralaleroPerSec();
-
-    }
-}
-
-// LiriliLarilaCost
-function updateLiriliLarilaCost() {
-    document.getElementById("liriliLarilaCost").innerHTML = liriliLarilaCost;
-
-}
-
-function increaseLiriliLarilaCost() {
-    liriliLarilaCost = Math.floor(liriliLarilaBaseCost * Math.pow(1.3, liriliLarilaLevel));
-    updateLiriliLarilaCost();
-}
-
-// LiriliLarilaLevel
-function updateLiriliLarilaLevel() {
-    document.getElementById("liriliLarilaLevel").innerHTML = liriliLarilaLevel;
-
-}
-
-function incLiriliLarilaLevel() {
-    liriliLarilaLevel ++;
-    updateLiriliLarilaLevel();
-
-}
-
-// Brr Brr Patapim ~~~~~~~~~~~~~~~~
-
-const brrBrrPatapimBaseCost = 12;
-var brrBrrPatapimCost = 12;
-var brrBrrPatapimLevel = 0;
-
-function buyBrrBrrPatapim() {
-    if (tralaleroAmount >= brrBrrPatapimCost) {
-        tralaleroAmount -= brrBrrPatapimCost;
-
-        // decrease tralalero amount
-        updateTralaleroAmount();
-
-        // bomb croc level ++
-        incBrrBrrPatapimLevel();
-
-        // bomb croc costs more
-        increaseBrrBrrPatapimCost();
-
-        // more tralalalero per sec
-        updateTralaleroPerSec();
-
-    }
-}
-
-// BrrBrrPatapimCost
-function updateBrrBrrPatapimCost() {
-    document.getElementById("brrBrrPatapimCost").innerHTML = brrBrrPatapimCost;
-
-}
-
-function increaseBrrBrrPatapimCost() {
-    brrBrrPatapimCost = Math.floor(brrBrrPatapimBaseCost * Math.pow(1.3, brrBrrPatapimLevel));
-    updateBrrBrrPatapimCost();
-}
-
-// BrrBrrPatapimLevel
-function updateBrrBrrPatapimLevel() {
-    document.getElementById("brrBrrPatapimLevel").innerHTML = brrBrrPatapimLevel;
-
-}
-
-function incBrrBrrPatapimLevel() {
-    brrBrrPatapimLevel ++;
-    updateBrrBrrPatapimLevel();
-
-}
-
-
-
 // add every second ~~~~~~~~~~~~~~~~~~~~~~~~
 var tralaleroPerSec;
 
@@ -191,7 +111,33 @@ function addTralalero() {
 
 var interval = setInterval(addTralalero, 1000);
 
+function renderAnimalUpgrades() {
+    const container = document.getElementById("animals-container") 
+    container.innerHTML = "";
 
+    // render all the HTML for the upgrades
+    for (const key in brainrot) {
+        const animal = brainrot[key];
+        container.innerHTML += `
+        <div class = "upgrades ${key}" onclick = "buyAnimal('${key}')">
+                    <span class = "tooltip ${key}"> 
+                        ${animal.tooltip}
+                    </span>
+                    <div class = "top-section">
+                        <img src = "images/${key}.jpg" class = "upgradeImage">
+                        <h4 class = "upgradeName"> ${animal.displayName} </h4>
+                        <div class = "costInfo">
+                            <p> <span id = "${key}Cost"> </span> </p>
+                            <img src = "images/tralalero.png" class = "currencyImage">
+                        </div>
+                    </div>
+                    <div class = "bottom-section">
+                        <p> Level <b><span id = "${key}Level"> </span> </b></p>
+                    </div>
+                </div>
+        `
+    }
+}
 
 /*
 function animateValue(obj, start, end, duration) {
