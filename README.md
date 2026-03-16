@@ -1,4 +1,1 @@
-brr brr patapim
-brr brr patapim
-chimpanzini bananini
-tung tung tung sahur!
+Idle Game I'm making for fun because I've always wanted to make my own idle game!
